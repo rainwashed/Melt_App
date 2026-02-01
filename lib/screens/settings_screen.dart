@@ -49,7 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -135,7 +135,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
 
-              const Spacer(),
+              const SizedBox(height: 40),
 
               ElevatedButton(
                 onPressed: _saveSettings,

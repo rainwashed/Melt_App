@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'api_service.dart';
 import 'models/user_profile.dart';
 import 'screens/profile_setup_screen.dart';
 import 'screens/recording_screen.dart';
 import 'screens/settings_screen.dart';
+import 'screens/history_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Lock to portrait mode
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   await ApiService().initialize();
   runApp(const MyApp());
 }
@@ -21,12 +30,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: const Color(0xFF00D9FF),
-        scaffoldBackgroundColor: const Color(0xFF0A0E21),
-        colorScheme: ColorScheme.dark(
-          primary: const Color(0xFF00D9FF),
-          secondary: const Color(0xFFEB1555),
-          surface: const Color(0xFF1D1E33),
+        primaryColor: const Color(0xFFEB1555),
+        scaffoldBackgroundColor: const Color(0xFF111827),
+        colorScheme: const ColorScheme.dark(
+          primary: Color(0xFFEB1555),
+          secondary: Color(0xFFFFAB00),
+          surface: Color(0xFF1F2937),
         ),
         useMaterial3: true,
       ),
@@ -35,6 +44,7 @@ class MyApp extends StatelessWidget {
         '/setup': (context) => const ProfileSetupScreen(),
         '/home': (context) => const RecordingScreen(),
         '/settings': (context) => const SettingsScreen(),
+        '/history': (context) => const HistoryScreen(),
       },
     );
   }
@@ -74,29 +84,27 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0A0E21),
+      backgroundColor: const Color(0xFF111827),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 120,
-              height: 120,
+              width: 150,
+              height: 150,
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: const Color(0xFF1D1E33),
+                borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF00D9FF).withOpacity(0.5),
+                    color: const Color(0xFFEB1555).withOpacity(0.3),
                     blurRadius: 30,
-                    spreadRadius: 10,
+                    spreadRadius: 5,
                   ),
                 ],
               ),
-              child: const Icon(
-                Icons.account_balance,
-                size: 60,
-                color: Color(0xFF00D9FF),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Image.asset('assets/images/logo.png', fit: BoxFit.cover),
               ),
             ),
             const SizedBox(height: 30),
@@ -111,11 +119,11 @@ class _SplashScreenState extends State<SplashScreen> {
             const SizedBox(height: 10),
             const Text(
               'Your legal guardian',
-              style: TextStyle(fontSize: 16, color: Color(0xFF8D8E98)),
+              style: TextStyle(fontSize: 16, color: Color(0xFF9CA3AF)),
             ),
             const SizedBox(height: 50),
             const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00D9FF)),
+              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFEB1555)),
             ),
           ],
         ),
