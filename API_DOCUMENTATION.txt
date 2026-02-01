@@ -1,0 +1,77 @@
+API Documentation for Melt Backend
+==================================
+
+Base URL: http://localhost:3000
+
+Overview
+--------
+This API is built using ElysiaJS. It provides endpoints for interacting with Gemini AI (for text analysis) and ElevenLabs (for audio processing).
+
+Endpoints
+---------
+
+### General
+
+1.  **GET /**
+    *   **Description**: Health check endpoint.
+    *   **Response**: 
+        ```json
+        {
+          "message": "Hello World"
+        }
+        ```
+
+### Gemini Routes (Prefix: /gemini)
+
+2.  **GET /gemini/**
+    *   **Description**: Basic route check.
+    *   **Response**: "Gemini Route" (Text)
+
+3.  **POST /gemini/judge**
+    *   **Description**: Analyzes a transcript to determine if it contains dangerous content.
+    *   **Content-Type**: application/json
+    *   **Body Arguments**:
+        *   `transcript` (string, required): The text transcript to be analyzed.
+    *   **Response**: JSON Object
+        *   `dangerous` (boolean): Whether the content is deemed dangerous.
+        *   `reason` (string): The explanation for the judgment.
+
+4.  **POST /gemini/inform**
+    *   **Description**: Extracts relevant information from a transcript.
+    *   **Content-Type**: application/json
+    *   **Body Arguments**:
+        *   `transcript` (string, required): The text transcript.
+    *   **Response**: JSON Object
+        *   `information` (string): The extracted information.
+
+5.  **POST /gemini/communicate**
+    *   **Description**: Generates a communication response based on context.
+    *   **Content-Type**: application/json
+    *   **Body Arguments**:
+        *   `transcript` (string, required): The conversation transcript.
+        *   `location` (string, required): The current location context.
+        *   `name` (string, required): The name of the person/entity.
+    *   **Response**: JSON Object
+        *   `communicate` (string): The generated response text.
+
+### ElevenLabs Routes (Prefix: /elevenlabs)
+
+6.  **GET /elevenlabs/**
+    *   **Description**: Basic route check.
+    *   **Response**: "ElevenLabs Route" (Text)
+
+7.  **POST /elevenlabs/upload**
+    *   **Description**: Uploads an audio file for transcription (Speech-to-Text).
+    *   **Content-Type**: multipart/form-data
+    *   **Body Arguments**:
+        *   `audio` (File, required): The audio file to transcribe. Must be of type `audio/*`.
+    *   **Response**: JSON Object
+        *   `transcript` (string): The formatted transcript (includes timestamps/speakers internally but returns formatted string).
+
+8.  **POST /elevenlabs/tts**
+    *   **Description**: Converts text to speech (Text-to-Speech).
+    *   **Content-Type**: application/json
+    *   **Body Arguments**:
+        *   `text` (string, required): The text to convert to audio.
+    *   **Response**: Binary Audio File
+        *   **Content-Type**: audio/mpeg
